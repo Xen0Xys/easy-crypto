@@ -22,4 +22,14 @@ describe("UUID", () => {
         expect(uuid.length).toBe(36);
         expect(uuid[14]).toBe("7");
     });
+
+    test("Invalid Version", async(): Promise<void> => {
+        try{
+            // @ts-ignore
+            generateUuid(5);
+            expect(true).toBe(false);
+        }catch(e: any){
+            expect(e).toBeDefined();
+        }
+    });
 });

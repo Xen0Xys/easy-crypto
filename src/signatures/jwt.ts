@@ -1,9 +1,11 @@
 import jwt, {type JwtPayload} from "jsonwebtoken";
 
 export function signJwt(payload: JwtPayload, secret: string, duration: string = "7d"): string{
+    // @ts-ignore
     return jwt.sign(payload, secret, {
         expiresIn: duration,
         algorithm: "HS512",
+        allowInsecureKeySizes: false,
     });
 }
 

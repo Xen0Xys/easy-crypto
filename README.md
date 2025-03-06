@@ -1,89 +1,92 @@
-# Easy Crypto
+# easy-crypto
 
-Easy Crypto is a TypeScript cryptography library designed to prevent misuse while providing a simple and secure interface for WebCrypto, hashing functions, and JWT usage.
+A TypeScript cryptography library designed to prevent misuses and allow simple usage of WebCrypto, hashes, and JSON Web Tokens (JWT). Its goal is to provide developers with a straightforward and reliable way to handle common crypto tasks, such as AES-GCM encryption/decryption, Argon2 hashing, and JWT manipulation.
 
 ## Features
 
-- **Simple API:** Offers a straightforward interface to handle cryptographic operations.
-- **AES-GCM Support:** Provides implementations for AES-GCM for secure symmetric encryption.
-- **Hashing Functions:** Includes implementations for robust hash functions such as SHA-256 and Argon2.
-- **JWT Integration:** Facilitates the generation and verification of JSON Web Tokens.
-- **Type Safety:** Built entirely in TypeScript to ensure a robust developer experience and reduce runtime errors.
+- Simple and intuitive API for AES-GCM encryption/decryption
+- Argon2 support for secure password hashing
+- JWT creation and verification
+- Built on top of WebCrypto, ensuring modern, standards-based security
+- Written in TypeScript for strong typing and better developer experience
 
 ## Installation
 
-To use Easy Crypto in your project, ensure you have Node.js installed. You can then install the library via your package manager if it’s published, or build it from source.
+To install the library and its dependencies, run:
 
-Clone this repository:
+npm install argon2 jsonwebtoken uuid
 
-git clone <repository-url>
-
-Install the dependencies:
-
-npm install
+This library is currently marked as private in package.json (for local or internal use). If needed, change the "private" field to false or remove it to publish to npm.
 
 ## Usage
 
-After installation or building the project, you can import and use the various modules in your TypeScript code. For instance:
+Below is a quick reference on how you might use some of the features in easy-crypto:
 
-```typescript
-// Importing the AES-GCM cipher implementation
-import { encrypt, decrypt } from './src/ciphers/aes-gcm';
+### AES-GCM Encryption/Decryption
+```ts
+import {AesGcmSecret} from "easy-crypto";
 
-// Encrypting data
-const cipherText = encrypt(plainText, key);
+const secret = "YourSecretKey";  
+const aes = new AesGcmSecret(secret);
 
-// Decrypting data
-const plainText = decrypt(cipherText, key);
+// Encrypt data  
+const dataToEncrypt = new TextEncoder().encode("Hello World");  
+const encrypted = await aes.cipher(dataToEncrypt);
+
+// Decrypt data  
+const decrypted = await aes.decipher(encrypted);  
+console.log(new TextDecoder().decode(decrypted));  
 ```
 
-Similarly, you can use the hashing functions:
+### Argon2 Hashing
+```ts
+import {hashPassword, verifyPassword} from "easy-crypto";
 
-```typescript
-// Import a hash function
-import { sha256 } from './src/hashes/hashes';
-
-const digest = sha256(data);
+const hash = await hashPassword("password");
+const verify = await verifyPassword("password", hash);
+console.log(verify); // true
 ```
 
-Adapt the examples as needed to fit your application's requirements.
+### JWT Creation and Verification
 
-## Build & Test
+```ts
+import {signJwt} from "easy-crypto";
 
-Easy Crypto uses modern JavaScript tooling. Key scripts defined in the project include:
+const jwt = signJwt({
+    sub: "user_id",
+}, "secret", "7d");
+const payload = jwt.verify(token, "secret");
+console.log(payload); // { sub: "user_id" }
+```
 
-- **Build:**  
-  Build and bundle the project for browser environment:
+## Scripts
 
-      bun build --minify --target=browser ./src/index.ts --outfile=dist/index.js
-      bun run build:declaration
+The following scripts are available in the package.json [1]:
 
-- **Lint:**  
-  Automatically fix lint issues:
+- build: Compiles and bundles the library for browser usage.
+- test: Runs the test suite using Bun.
+- lint:fix: Fixes lint issues using ESLint.
 
-      eslint --fix .
-
-- **Test:**  
-  Run the test suite with Bun:
-
-      bun test
-
-These scripts ensure that the library is production-ready and free from common issues.
-
-## Contributing
-
-Contributions to Easy Crypto are welcome! To contribute:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Commit your changes and ensure all tests pass.
-4. Submit a pull request with a detailed description of your changes.
+You can run them with:  
+• npm run build  
+• npm run test  
+• npm run lint:fix
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+This project is licensed under the MIT License [1].  
+See the LICENSE file for details.
 
---------------------------------------------------
-Easy Crypto is maintained by Tom Czekaj (a.k.a. Xen0Xys). For questions or suggestions, please open an issue on the repository or contact the maintainer.
+## Contributing
 
---------------------------------------------------
+Feel free to open issues or feature requests in the repository. Contributions are welcome via pull requests. Before submitting code, please ensure you have tested and linted your changes.
+
+## Security
+
+- Dependencies are carefully managed to minimize security risks.
+- Dev dependencies are only for local development; end users don’t install them.
+- We recommend running tests and verifying the integrity of the code before using it in production.
+
+---
+
+Thank you for checking out easy-crypto! If you find this project helpful, feel free to contribute or share feedback.

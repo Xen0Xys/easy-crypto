@@ -26,4 +26,19 @@ describe("Jwt", () => {
         expect(payload.iss).toBe("issuer");
         expect(payload.jti).toBe("jwt_id");
     });
+
+    test("Expired", async() => {
+        const jwt: string = signJwt({
+            sub: "user_id",
+            aud: "audience",
+            iss: "issuer",
+            jti: "jwt_id",
+        } as JwtPayload, "super-secret", "0");
+        try{
+            verifyJwt(jwt, "super-secret");
+            expect(true).toBe(false);
+        }catch(e: any){
+            expect(e).toBeDefined();
+        }
+    });
 });

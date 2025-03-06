@@ -29,6 +29,7 @@ describe("sha256", (): void => {
     test("Value", (): void => {
         const data = "";
         const hash: Uint8Array = toSha256(data);
+        // @ts-ignore
         expect(hash.toHex()).toBe("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
     });
 });
