@@ -1,5 +1,5 @@
-import {concatUint8Array, type CryptoKey, generateGcmKey} from "./utils.ts";
-import * as crypto from "crypto";
+import {concatUint8Array, type CryptoKey, generateGcmKey, generateRandomBytes} from "./utils.ts";
+import {webcrypto} from "crypto";
 
 export interface AesGcm{
     cipher(data: Uint8Array): Promise<Uint8Array>;
@@ -14,8 +14,8 @@ export class AesGcmKey implements AesGcm{
     }
 
     async cipher(data: Uint8Array): Promise<Uint8Array>{
-        const iv: Uint8Array = crypto.randomBytes(12);
-        const cipher: Uint8Array = new Uint8Array(await crypto.subtle.encrypt(
+        const iv: Uint8Array = generateRandomBytes(12);
+        const cipher: Uint8Array = new Uint8Array(await webcrypto.subtle.encrypt(
             {
                 name: "AES-GCM",
                 iv,
@@ -29,7 +29,7 @@ export class AesGcmKey implements AesGcm{
     async decipher(data: Uint8Array): Promise<Uint8Array>{
         const iv: Uint8Array = data.subarray(0, 12);
         const cipherContent: Uint8Array = data.subarray(12);
-        return new Uint8Array(await crypto.subtle.decrypt(
+        return new Uint8Array(await webcrypto.subtle.decrypt(
             {
                 name: "AES-GCM",
                 iv,
@@ -50,10 +50,10 @@ export class AesGcmSecret implements AesGcm{
     }
 
     async cipher(data: Uint8Array): Promise<Uint8Array>{
-        const salt: Uint8Array = crypto.randomBytes(16);
+        const salt: Uint8Array = generateRandomBytes(16);
         const key: CryptoKey = await generateGcmKey(this.secret, salt);
-        const iv: Uint8Array = crypto.randomBytes(12);
-        const cipher: Uint8Array = new Uint8Array(await crypto.subtle.encrypt(
+        const iv: Uint8Array = generateRandomBytes(12);
+        const cipher: Uint8Array = new Uint8Array(await webcrypto.subtle.encrypt(
             {
                 name: "AES-GCM",
                 iv,
@@ -69,7 +69,7 @@ export class AesGcmSecret implements AesGcm{
         const key: CryptoKey = await generateGcmKey(this.secret, salt);
         const iv: Uint8Array = data.subarray(16, 28);
         const cipherContent: Uint8Array = data.subarray(28);
-        return new Uint8Array(await crypto.subtle.decrypt(
+        return new Uint8Array(await webcrypto.subtle.decrypt(
             {
                 name: "AES-GCM",
                 iv,
