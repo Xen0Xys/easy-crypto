@@ -10,6 +10,13 @@ describe("AES-GCM secret", () => {
             expect(encrypted).not.toEqual(data);
         });
 
+        test("Cipher without data", async(): Promise<void> => {
+            const cipher: AesGcm = new AesGcmSecret("super-secret");
+            const data: Uint8Array = new Uint8Array(0);
+            const encrypted: Uint8Array = await cipher.cipher(data);
+            expect(encrypted).not.toEqual(data);
+        });
+
         test("Cipher & decipher", async(): Promise<void> => {
             const cipher: AesGcm = new AesGcmSecret("super-secret");
             const data: Uint8Array = new TextEncoder().encode("data");
@@ -37,6 +44,14 @@ describe("AES-GCM secret", () => {
             const key: CryptoKey = await generateGcmKey("super-secret", generateRandomBytes(32));
             const cipher: AesGcm = new AesGcmKey(key);
             const data: Uint8Array = new TextEncoder().encode("data");
+            const encrypted: Uint8Array = await cipher.cipher(data);
+            expect(encrypted).not.toEqual(data);
+        });
+
+        test("Cipher without data", async(): Promise<void> => {
+            const key: CryptoKey = await generateGcmKey("super-secret", generateRandomBytes(32));
+            const cipher: AesGcm = new AesGcmKey(key);
+            const data: Uint8Array = new Uint8Array(0);
             const encrypted: Uint8Array = await cipher.cipher(data);
             expect(encrypted).not.toEqual(data);
         });

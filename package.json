@@ -1,19 +1,21 @@
 {
-    "name": "easy-crypto",
+    "name": "@easy/crypto",
     "version": "0.0.1",
     "description": "TS crypto library that prevent missuses and allow simple webcrypto/hashes/jwt usage",
     "author": "Tom Czekaj (a.k.a. Xen0Xys)",
-    "module": "index.ts",
     "type": "module",
-    "private": true,
     "main": "dist/index.js",
+    "module": "dist/index.js",
+    "browser": "dist/index.browser.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "build": "bun build --minify --target=browser ./src/index.ts --outfile=dist/index.js && bun run build:declaration",
+        "build:browser": "bun build --minify --target=browser ./src/index.ts --outfile=dist/index.browser.js",
+        "build:node": "bun build --minify --target=node ./src/index.ts --outfile=dist/index.node.js",
         "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
+        "build": "bun run build:browser && bun run build:node && bun run build:declaration",
         "postbuild": "rimraf tsconfig.types.tsbuildinfo",
         "lint:fix": "eslint --fix .",
-        "test": "bun test"
+        "test": "bun test --coverage"
     },
     "dependencies": {
         "argon2": "^0.41.1",

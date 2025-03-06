@@ -1,6 +1,7 @@
 import crypto from "crypto";
 
 export type CryptoKey = crypto.webcrypto.CryptoKey;
+export type CryptoKeyPair = crypto.webcrypto.CryptoKeyPair;
 
 export function generateRandomBytes(length: number): Uint8Array{
     const array: Uint8Array = new Uint8Array(length);
@@ -50,5 +51,16 @@ export async function generateGcmKey(secret: string, salt: Uint8Array, extractab
         },
         extractable,
         ["encrypt", "decrypt"],
+    );
+}
+
+export async function generateEcdhKey(): Promise<CryptoKeyPair>{
+    return await crypto.subtle.generateKey(
+        {
+            name: "ECDH",
+            namedCurve: "P-521",
+        },
+        false,
+        ["deriveKey"],
     );
 }
