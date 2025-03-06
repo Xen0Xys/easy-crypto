@@ -12,11 +12,17 @@
         "build": "bun build --target=node ./src/index.ts --outfile=dist/index.js && bun run build:declaration",
         "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
         "postbuild": "rimraf tsconfig.types.tsbuildinfo",
-        "lint:fix": "eslint --fix ."
+        "lint:fix": "eslint --fix .",
+        "test": "bun test"
+    },
+    "dependencies": {
+        "argon2": "^0.41.1",
+        "uuid": "^11.1.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.21.0",
         "@types/bun": "latest",
+        "@types/node": "^22.13.9",
         "eslint": "^9.21.0",
         "typescript-eslint": "^8.26.0"
     },
@@ -26,9 +32,5 @@
     "files": [
         "dist/*.js",
         "dist/*.d.ts"
-    ],
-    "dependencies": {
-        "argon2": "^0.41.1",
-        "uuid": "^11.1.0"
-    }
+    ]
 }

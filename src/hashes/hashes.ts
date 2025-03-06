@@ -1,7 +1,12 @@
 import {v4 as uuidv4, v7 as uuidv7} from "uuid";
 import argon2 from "argon2";
+import crypto from "crypto";
 
-export function uuid(version: 4 | 7 = 7): string{
+export function toSha256(data: crypto.BinaryLike): Uint8Array{
+    return crypto.createHash("sha256").update(data).digest();
+}
+
+export function generateUuid(version: 4 | 7 = 7): string{
     switch (version){
         case 4:
             return uuidv4();

@@ -1,1 +1,1 @@
-export {uuid, hashPassword, verifyPassword} from "./hashes/hashes.ts";
+export {toSha256, generateUuid, hashPassword, verifyPassword} from "./hashes/hashes.ts";
