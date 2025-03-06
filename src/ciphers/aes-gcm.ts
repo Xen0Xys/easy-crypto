@@ -2,8 +2,8 @@ import {concatUint8Array, type CryptoKey, generateGcmKey, generateRandomBytes} f
 import {webcrypto} from "crypto";
 
 export interface AesGcm{
-    cipher(data: Uint8Array): Promise<Uint8Array>;
-    decipher(data: Uint8Array): Promise<Uint8Array>;
+    cipher(_data: Uint8Array): Promise<Uint8Array>;
+    decipher(_data: Uint8Array): Promise<Uint8Array>;
 }
 
 export class AesGcmKey implements AesGcm{

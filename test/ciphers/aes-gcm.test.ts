@@ -4,7 +4,7 @@ import {describe, expect, test} from "bun:test";
 
 describe("AES-GCM secret", () => {
     describe("Secret", () => {
-        test("Cipher", async(): Promise<void> =>{
+        test("Cipher", async(): Promise<void> => {
             const cipher: AesGcm = new AesGcmSecret("super-secret");
             const data: Uint8Array = new TextEncoder().encode("data");
             const encrypted: Uint8Array = await cipher.cipher(data);
@@ -29,7 +29,7 @@ describe("AES-GCM secret", () => {
     });
 
     describe("Key", () => {
-        test("Cipher", async(): Promise<void> =>{
+        test("Cipher", async(): Promise<void> => {
             const key: CryptoKey = await generateGcmKey("super-secret", generateRandomBytes(32));
             const cipher: AesGcm = new AesGcmKey(key);
             const data: Uint8Array = new TextEncoder().encode("data");
@@ -58,4 +58,3 @@ describe("AES-GCM secret", () => {
         });
     });
 });
-

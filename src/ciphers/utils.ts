@@ -31,10 +31,10 @@ export async function generateGcmKey(secret: string, salt: Uint8Array, extractab
         "raw",
         encoder.encode(secret),
         {
-            name: "PBKDF2"
+            name: "PBKDF2",
         },
         false,
-        ["deriveKey"]
+        ["deriveKey"],
     );
     return await crypto.subtle.deriveKey(
         {
@@ -49,6 +49,6 @@ export async function generateGcmKey(secret: string, salt: Uint8Array, extractab
             length: 256,
         },
         extractable,
-        ["encrypt", "decrypt"]
+        ["encrypt", "decrypt"],
     );
 }
