@@ -1,5 +1,3 @@
-Below is an example of a professional README in English based on the repository:
---------------------------------------------------
 # Easy Crypto
 
 Easy Crypto is a TypeScript cryptography library designed to prevent misuse while providing a simple and secure interface for WebCrypto, hashing functions, and JWT usage.
