@@ -64,3 +64,13 @@ export async function generateEcdhKey(): Promise<CryptoKeyPair>{
         ["deriveKey"],
     );
 }
+
+export async function generateEd25519Key(): Promise<CryptoKeyPair>{
+    return await crypto.subtle.generateKey(
+        {
+            name: "Ed25519",
+        },
+        false,
+        ["sign", "verify"],
+    ) as CryptoKeyPair;
+}
